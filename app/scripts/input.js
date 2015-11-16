@@ -104,19 +104,10 @@ Module.directive('dateTime', ['$compile', '$document', '$filter', 'dateTimeConfi
 
       if (angular.isDefined(attrs.minDate)) {
         setMin(datePickerUtils.findParam(scope, attrs.minDate));
-
-        ngModel.$validators.min = function (value) {
-          //If we don't have a min / max value, then any value is valid.
-          return minValid ? moment.isMoment(value) && (minDate.isSame(value) || minDate.isBefore(value)) : true;
-        };
       }
 
       if (angular.isDefined(attrs.maxDate)) {
         setMax(datePickerUtils.findParam(scope, attrs.maxDate));
-
-        ngModel.$validators.max = function (value) {
-          return maxValid ? moment.isMoment(value) && (maxDate.isSame(value) || maxDate.isAfter(value)) : true;
-        };
       }
 
       if (angular.isDefined(attrs.dateChange)) {

@@ -633,10 +633,11 @@ Module.directive('dateRange', ['$compile', 'datePickerUtils', 'dateTimeConfig', 
       scope.start = createMoment(scope.start);
       scope.end = createMoment(scope.end);
 
-      scope.$watchGroup(['start', 'end'], function (dates) {
-        //Scope data changed, update picker min/max
-        setMin(dates[0]);
-        setMax(dates[1]);
+      scope.$watch('start', function (start) {
+        setMin(start);
+      });
+      scope.$watch('end', function (end) {
+        setMax(end);
       });
 
       if (angular.isDefined(attrs.dateChange)) {
@@ -760,19 +761,10 @@ Module.directive('dateTime', ['$compile', '$document', '$filter', 'dateTimeConfi
 
       if (angular.isDefined(attrs.minDate)) {
         setMin(datePickerUtils.findParam(scope, attrs.minDate));
-
-        ngModel.$validators.min = function (value) {
-          //If we don't have a min / max value, then any value is valid.
-          return minValid ? moment.isMoment(value) && (minDate.isSame(value) || minDate.isBefore(value)) : true;
-        };
       }
 
       if (angular.isDefined(attrs.maxDate)) {
         setMax(datePickerUtils.findParam(scope, attrs.maxDate));
-
-        ngModel.$validators.max = function (value) {
-          return maxValid ? moment.isMoment(value) && (maxDate.isSame(value) || maxDate.isAfter(value)) : true;
-        };
       }
 
       if (angular.isDefined(attrs.dateChange)) {

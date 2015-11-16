@@ -61,10 +61,11 @@ Module.directive('dateRange', ['$compile', 'datePickerUtils', 'dateTimeConfig', 
       scope.start = createMoment(scope.start);
       scope.end = createMoment(scope.end);
 
-      scope.$watchGroup(['start', 'end'], function (dates) {
-        //Scope data changed, update picker min/max
-        setMin(dates[0]);
-        setMax(dates[1]);
+      scope.$watch('start', function (start) {
+        setMin(start);
+      });
+      scope.$watch('end', function (end) {
+        setMax(end);
       });
 
       if (angular.isDefined(attrs.dateChange)) {
